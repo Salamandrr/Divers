@@ -1,0 +1,28 @@
+#!/bin/sh
+# On a $1 = le dossier de télechargement
+#  J'ai rajouté un deuxieme argument $2 qui dit ou on extrait la musique
+ 
+#Si $2 est vide je l'extrait dans le rep courant
+if [ -z "$2" ]
+then
+    repcible=./
+else
+    repcible=$2
+fi
+ 
+#Liste tous les fichiers musicaux dans le dossier de telechargement
+musique=`ls $1 | grep -P ".*- Jamendo - MP3.zip" >/tmp/musique.$$`
+ 
+#On va extraire les archives une a une
+while read line
+do
+    #On va affacer ce qu'il a en trop et on va creer le dossier
+    namedir=`echo $line | cut -d'-' -f1,2`
+	
+	#On extrait l'archive sans afficher et sans remplacer les fichiers exitants
+	unzip -qn $1/"$line" -d $repcible/"$namedir"
+ 
+done < /tmp/musique.$$
+ 
+#Je supprime mon fichier temp
+rm -f /tmp/musique.$$
