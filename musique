@@ -1,14 +1,21 @@
 #!/bin/sh
 # On a $1 = le dossier de télechargement
-#  J'ai rajouté un deuxieme argument $2 qui dit ou on extrait la musique
- 
-#Si $2 est vide je l'extrait dans le rep courant
-if [ -z "$2" ]
-then
-    repcible=./
-else
-    repcible=$2
-fi
+#  J'ai rajouté des options pour qu'on ait plus de libertes
+#Comportement de base du programme
+musique_file=./
+
+#Options
+while getopts "f" option
+do
+	case $option in
+		#On choisit ou on extrait la musique
+		f)musique_file=$2
+		shift;;
+		#Autre chose que l'option f
+		?)echo "usage: option inconnue"
+		exit 1;;
+	esac
+done
  
 #Liste tous les fichiers musicaux dans le dossier de telechargement
 musique=`ls $1 | grep -P ".*- Jamendo - MP3.zip" >/tmp/musique.$$`
@@ -20,7 +27,7 @@ do
     namedir=`echo $line | cut -d'-' -f1,2`
 	
 	#On extrait l'archive sans afficher et sans remplacer les fichiers exitants
-	unzip -qn $1/"$line" -d $repcible/"$namedir"
+	unzip -qn $1/"$line" -d $rmusique_file/"$namedir"
  
 done < /tmp/musique.$$
  
