@@ -13,7 +13,7 @@ do
 		f)shift
 		#On stocke le nom du repertoire dans une variable
 		musique_file=$2
-		shift;;
+		;;
 		#Autre chose que l'option f
 		?)echo "usage: option inconnue"
 		exit 1;;
@@ -34,6 +34,7 @@ do
 	
 	#On extrait l'archive sans afficher et sans remplacer les fichiers exitants
 	unzip -qn $download_dir/"$line" -d $musique_file/"$namedir"
+	echo "$line extrait" 
 	 
 done < /tmp/musique.$$
  
