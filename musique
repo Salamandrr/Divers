@@ -27,7 +27,7 @@ do
     namedir=`echo $line | cut -d'-' -f1,2`
 	
 	#On extrait l'archive sans afficher et sans remplacer les fichiers exitants
-	unzip -qn $1/"$line" -d $rmusique_file/"$namedir"
+	unzip -qn $1/"$line" -d $musique_file/"$namedir"
  
 done < /tmp/musique.$$
  
