@@ -3,13 +3,16 @@
 #  J'ai rajouté des options pour qu'on ait plus de libertes
 #Comportement de base du programme
 musique_file=./
+dowload_dir=$1
 
 #Options
 while getopts "f" option
 do
 	case $option in
 		#On choisit ou on extrait la musique
-		f)musique_file=$2
+		f)shift
+		download_dir=$1
+		musique_file=$2
 		shift;;
 		#Autre chose que l'option f
 		?)echo "usage: option inconnue"
@@ -17,8 +20,9 @@ do
 	esac
 done
  
+echo $1
 #Liste tous les fichiers musicaux dans le dossier de telechargement
-musique=`ls $1 | grep -P ".*- Jamendo - MP3.zip" >/tmp/musique.$$`
+musique=`ls $download_dir | grep -P ".*- Jamendo - MP3.zip" >/tmp/musique.$$`
  
 #On va extraire les archives une a une
 while read line
@@ -27,8 +31,8 @@ do
     namedir=`echo $line | cut -d'-' -f1,2`
 	
 	#On extrait l'archive sans afficher et sans remplacer les fichiers exitants
-	unzip -qn $1/"$line" -d $musique_file/"$namedir"
- 
+	unzip -qn $download_dir/"$line" -d $musique_file/"$namedir"
+	 
 done < /tmp/musique.$$
  
 #Je supprime mon fichier temp
