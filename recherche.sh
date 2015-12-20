@@ -86,10 +86,15 @@ size_f2=`ls -s $f2 | cut -d' ' -f1`
 
 # ON crée le fichier d'entrée pour faire le graphe
 echo $size_f2 $time_naive $time_opti >> graph_programme
+
+#On va trier la liste par taille de fichiers
+cat graph_programme | sort -k1n,1n > /tmp/graphique.$$
+cat /tmp/graphique.$$ > graph_programme
 ./graphe.sh graph_programme
 
 echo "Valeurs dans le graph. :"
 cat graph_programme
+
 echo "Voulez vous effacer le fichier [y-n]"
 read choix
 if [ $choix = "y" ]
@@ -98,3 +103,5 @@ then
 	rm -f graph_programme
 fi
 	
+#On eface les fichiers temps
+rm -f /tmp/graphique.$$
