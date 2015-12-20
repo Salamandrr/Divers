@@ -1,0 +1,27 @@
+#!/bin/sh
+if ! [ -e $1 ]
+then
+	touch $1
+fi
+echo "Veuillez entrer un mot:"
+read test
+boucle(){
+if ! [ -z $test ]
+then
+	echo $test >>/tmp/lecture.$$
+	echo "Veuillez entrer un mot:"
+	read test
+	boucle
+else
+	return 1
+fi
+}
+boucle
+size=`ls -s $1 | cut -d' ' -f1`
+while [ $size -le $2 ]
+do
+	cat /tmp/lecture.$$ >> $1
+	size=`ls -s $1 | cut -d' ' -f1`
+	cat $1 > /tmp/lecture.$$
+done
+rm -f lecture.$$
